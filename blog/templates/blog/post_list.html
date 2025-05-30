@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>All Posts</h2>
+    <ul>
+        {% for post in posts %}
+        <h3>{{ post.pk }}</h3>
+        <li><a href="{% url 'post-detail' post.pk %}">{{ post.name }}</a></li>
+        {% endfor %}
+    </ul>
+
+    {% if user.is_authenticated %}
+  Hello, {{ user.username }} | 
+  <form method="post" action="{% url 'logout' %}">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+    </form>
+
+{% else %}
+  <a href="{% url 'login' %}">Login</a> | <a href="{% url 'register' %}">Register</a>
+{% endif %}
+
+{% endblock content %}
