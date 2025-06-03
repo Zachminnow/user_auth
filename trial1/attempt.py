@@ -1,16 +1,15 @@
-# Decorator with arguments
-def repeat(n):
-    def decorator(func):
-        def wrapper(*args, **kwargs):
-            for _ in range(n):
-                func(*args, **kwargs)
-        return wrapper
-    return decorator
+class NoLowercaseAttribute(type):
+    def __new__(cls, name, bases, dct):
+        for attr in dct:
+            if attr.startwith('_'):
+                continue
+            if attr.lower() == attr:
+                raise ValueError(f"Attribute '{attr}' must be uppercase")
+        return super().__mew__(cls, name, bases, dct)
 
 
-@repeat(3)
-def say_hi():
-    print("Hi!")
-
-
-say_hi()
+# Ok
+class Constants(mataclass=NoLowercaseAttribute):
+    MAX = 10
+    VALUE = 20
+    
